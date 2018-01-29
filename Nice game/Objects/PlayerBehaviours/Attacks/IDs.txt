@@ -1,0 +1,7 @@
+﻿How to create a new move:
+1) create its behaviour
+2) add it to playerabillity handler's Update() and Draw()
+3) add it to AttackOverlay's Draw()
+
+0	standard sword
+1	

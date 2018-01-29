@@ -1,0 +1,12 @@
+﻿hello there fellow person looking through the content files.
+
+I see you are interested in looking at, and maybe even consider modding, the game files. That is all fine and dandy but please keep in mind that as soon as even one file is changed, any bug report sent afterwards will immediately be considered invalid and as such, your copy of the game is no longer properly supported by the developer.
+
+Also remember that if a file is changed incorrectly, the game may not function properly, mod the game at your own risk.
+
+Finally, this is a story/experience driven video game. There's not really much point to hacking the level files to get infinite health or whatever. You'll just win an ending you haven't deserved. I reccomend modding the game files AFTER you have finished the game or have watched a playthrough etc.
+
+Happy modding/looking in on game files/whatever you young deviants do in your spare time.
+
+A quick heads up, the source code and assets are already available on github if you didn't already know :) 
+All music can be downloaded from the gamejolt page with proper metadata and licensing

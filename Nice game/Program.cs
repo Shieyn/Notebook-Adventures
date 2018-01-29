@@ -2,7 +2,6 @@
 
 namespace Nice_game
 {
-#if WINDOWS || LINUX
     /// <summary>
     /// The main class.
     /// </summary>
@@ -18,5 +17,4 @@ namespace Nice_game
                 game.Run();
         }
     }
-#endif
 }

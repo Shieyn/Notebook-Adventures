@@ -1,0 +1,277 @@
+﻿for reference use only
+
+    public class Player : GravPlayerObject
+    {
+        Game game;
+        Texture2D pixel;
+
+        Texture2D attackSpr;
+        Texture2D invinSpr;
+
+        Texture2D scope;
+
+        public camera cam;
+
+        public int lives;
+        public int sAttk;
+
+        public int coins;           //what is a money?
+        public int score;
+
+        public bool attacking;
+        public int cooldown;        //in steps
+
+        public bool invin;
+        public int invinTime;       //in steps
+
+        private bool cooled;
+
+        public bool projectilesAllowed;
+        public int projectileSpeed; 
+
+        MouseState mouse_oldState;
+        MouseState mouse_newState;
+
+        KeyboardState keyboard_oldState;
+        KeyboardState keyboard_newState;
+
+        int a = 0;
+        int b = 0;
+
+        int c = 0;
+
+        int projectileTimerLim;
+        int projectileTimer = 0;
+
+        level level;
+
+        public bool enableMovement;
+
+        public Player(Game Game, level lvl) : base(Game)
+        {
+            projectileSpeed = 0;
+            level = lvl;
+            game = Game;
+            lives = 5;
+            sAttk = 3;
+            attacking = false;
+            invin = false;
+            invinTime = 60 * 3;
+            cooled = true;
+            cooldown = 60;
+            coins = 0;      //TODO
+            score = 0;
+            projectilesAllowed = false;
+            projectileTimerLim = 30 - projectileSpeed;
+            keyboard_oldState = Keyboard.GetState();
+            enableMovement = true;
+
+            mouse_oldState = Mouse.GetState();
+        }
+
+        public override void LoadContent()
+        {
+            solids = level.tiles.ToList();
+
+            texturename = "Textures/game/player/idle";
+            color = Color.White;
+            position = new Vector2(300);
+
+            attackSpr = game.Content.Load<Texture2D>("Textures/game/player/attk");
+            invinSpr = game.Content.Load<Texture2D>("Textures/game/player/invin");
+
+            pixel = game.Content.Load<Texture2D>("p");
+
+            jump = Keys.Space;
+            moveLeft = Keys.A;
+            moveRight = Keys.D;
+
+            scope = game.Content.Load<Texture2D>("Textures/UI/cursors/scope");
+
+            base.LoadContent();
+        }
+
+        public override void Update()
+        {
+            textureHeight = texture.Height;
+            textureWidth = texture.Width;
+
+            hitbox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+
+            keyboard_newState = Keyboard.GetState();
+
+            if (KeyboardStroke.KeyDown(keyboard_oldState, keyboard_newState, Keys.Tab))
+            {
+            }
+
+            keyboard_oldState = keyboard_newState;
+
+            if (position.Y > 768)
+            {
+                Nice_game.rules.utils.restart("tests", game);
+            }
+
+            //collision with bounding box
+            if (position.X + 1 < cam.ViewPort.Left)
+            {
+                position.X += cam.ViewPort.Left - position.X;
+            }
+
+            //killing the player
+            if (lives < 0)
+            {
+                Nice_game.rules.utils.restart("def", game);
+            }
+
+            foreach (Trigger t in level.triggers)
+            {
+                if (new Rectangle ((int)position.X, (int)position.Y, 32, 64).Intersects (new Rectangle ((int)t.x, 0, 32, 768)))
+                {
+                    onTriggerEnter(t.name);                                                
+                }
+            }
+
+            #region input
+            if (enableMovement)
+            {
+                speed = 10;
+                jumpspeed = 20;
+
+                mouse_newState = Mouse.GetState();
+
+                //attacking
+                if (mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Released && cooled)
+                {
+                    cooled = false;
+                    a = 0;
+                    b = 0;
+                    attacking = true;
+                }
+
+                //projectiles
+                if (projectilesAllowed)
+                {
+                    if (mouse_newState.RightButton == ButtonState.Pressed)
+                    {
+                        if (mouse_oldState.RightButton == ButtonState.Released)
+                            level.projectiles.Add(new Projectile(game, level.projectiles.Count, this));
+
+                        if (projectileTimer > projectileTimerLim)
+                        {
+                            level.projectiles.Add(new Projectile(game, level.projectiles.Count, this));
+                            projectileTimer = 0;
+                        }
+                        else
+                        {
+                            projectileTimer++;
+                        }
+                    }
+                }
+
+                //invin
+                if (mouse_newState.MiddleButton == ButtonState.Pressed && mouse_oldState.MiddleButton == ButtonState.Released && sAttk > 0 && !invin)
+                {
+                    sAttk--;
+                    invin = true;
+                }
+
+                //attacking
+                if (attacking)
+                {
+                    if (a > 30)
+                    {
+                        a = 0;
+                        attacking = false;
+                    }
+                    else
+                    {
+                        a++;
+                    }
+                }
+
+                //invinsibillity
+                if (invin)
+                {
+                    lives = 5;
+
+                    if (c > invinTime)
+                    {
+                        c = 0;
+                        invin = false;
+                    }
+                    else
+                    {
+                        c++;
+                        score++;
+                    }
+                }
+
+                //cooldown
+                if (!cooled && mouse_newState.LeftButton == ButtonState.Released && mouse_oldState.LeftButton == ButtonState.Released)
+                {
+                    if (b > cooldown)
+                    {
+                        cooled = true;
+                    }
+                    else
+                    {
+                        b++;
+                    }
+                }
+
+                mouse_oldState = mouse_newState;
+                #endregion
+            }
+            else
+            {
+                speed = 0;
+                jumpspeed = 0;
+            }
+
+            base.Update();
+        }
+
+        void onTriggerEnter(string name)
+        {
+            switch (name)
+            {
+                case "StaticCamera":
+                    cam.Status = camera.status.Static;
+                    break;
+
+                case "DynamicCamera":
+                    cam.Status = camera.status.Dynamic;
+                    break;
+
+                case "Dialogue":
+                    level.sm.start();
+                    position.X += 32;
+                    break;
+            }
+        }
+
+        public override void Draw(SpriteBatch batch)
+        {
+            Rectangle cooldownVis = new Rectangle((int)position.X , (int)position.Y - 30, b, 10);
+            Rectangle cooldownRem = new Rectangle(b + (int)position.X , (int)position.Y - 30, cooldown - b, 10);
+
+            if (!cooled)
+            {
+                batch.Draw(pixel, cooldownVis, Color.Green);
+                batch.Draw(pixel, cooldownRem, Color.Gray);
+            }
+
+            if (attacking)
+                batch.Draw(attackSpr, position, Color.White);
+
+            if (invin)
+                batch.Draw(invinSpr, position, Color.White);
+
+            if (projectilesAllowed)
+            {
+                batch.Draw(scope, Mouse.GetState().Position.ToVector2(), Color.Yellow);
+            }
+
+            base.Draw(batch);
+        }
+    }
