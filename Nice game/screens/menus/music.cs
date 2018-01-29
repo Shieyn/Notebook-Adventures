@@ -225,10 +225,10 @@ namespace Nice_game.screens.menus
             switch (ID)
             {
                 case 0:
-                    return "Ikanyai is mentally disabled\nand emilia is a grade A niggerfaggot";
+                    return "eyey";
                     break;
                 case 1:
-                    return "fag shit xd";
+                    return "ye"
                     break;
 
                 case 2:
@@ -244,7 +244,7 @@ namespace Nice_game.screens.menus
                     break;
 
                 case 5:
-                    return "rrtyui :( \nim a cancerous faggot :(";
+                    return "r";
                     break;
 
                 case 6:
