@@ -228,7 +228,7 @@ namespace Nice_game.screens.menus
                     return "eyey";
                     break;
                 case 1:
-                    return "ye"
+                    return "ye";
                     break;
 
                 case 2:
