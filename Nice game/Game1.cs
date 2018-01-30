@@ -20,9 +20,9 @@ namespace Nice_game
         public static bool ingame;
 
         Texture2D alphaHeader;
-
-        CLI cli;
+        
         assistant ass;  //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        CLI cli;
 
         public Game1()
         {
@@ -30,8 +30,7 @@ namespace Nice_game
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             quit = false;
-
-            cli = new CLI();
+            
             ass = new assistant(this);
 
             //the game is not capable of handling irregular aspect ratios and resolutions, just don't.
@@ -71,6 +70,8 @@ namespace Nice_game
 
             IsMouseVisible = true;
 
+            cli = new CLI();
+
             base.Initialize();
         }
 
@@ -109,7 +110,10 @@ namespace Nice_game
         {
             this.IsFixedTimeStep = true;
             ass.Update();
+
+#if !RELEASE
             cli.Update();
+#endif
 
             // TODO: Add your update logic here
             if (IsActive)

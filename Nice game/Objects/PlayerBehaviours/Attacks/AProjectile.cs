@@ -37,9 +37,7 @@ namespace Nice_game.Objects.PlayerBehaviours.Attacks
         public override void Update()
         {
             System.Console.WriteLine(speed);
-
-            //TODO fix implementation error
-            //speed not affecting fire rate
+            
             //DELET THIS 
             if (mouse_newState.LeftButton == ButtonState.Pressed)
             {
