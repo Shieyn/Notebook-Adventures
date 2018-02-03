@@ -116,7 +116,6 @@ namespace Nice_game
 #endif
 
             // TODO: Add your update logic here
-            if (IsActive)
                 ScreenManager.Instance.Update(gameTime);
 
             if (quit)

@@ -42,6 +42,7 @@ namespace Nice_game.Objects.UI
         context c;
         string b1Text;
         string b2Text;
+        string b3Text;
 
         public mainmenu(Game Game, context c)
         {
@@ -60,11 +61,13 @@ namespace Nice_game.Objects.UI
                 case context.menu:
                     b1Text = "play";
                     b2Text = "settings";
+                    b3Text = "music";
                     break;
 
                 case context.game:
                     b1Text = "resume";
                     b2Text = "back";
+                    b3Text = "retry";
                     break;
             }
 
@@ -123,7 +126,7 @@ namespace Nice_game.Objects.UI
                 buttonRight = Right,
                 buttonMiddle = Middle,
                 labelFont = font,
-                label = "music",
+                label = b3Text,
                 focused = true,
                 rect = new Rectangle(50, middle + 60, 150, 50)
             }; music.LoadContent();
@@ -173,7 +176,7 @@ namespace Nice_game.Objects.UI
                     if (c == context.menu)
                     {
                         //settings menu
-                        ScreenManager.Instance.currentscreen = new settings(game);
+                        ScreenManager.Instance.currentscreen = new Settings(game);
                         ScreenManager.Instance.reloadscreen();
                         settings.pressed = false;
                     }
@@ -199,13 +202,9 @@ namespace Nice_game.Objects.UI
                     }
                     else
                     {
-                        //music room but it's asking for confirmation
-                        leaveConfirmation.visible = true;
-                        if (leaveConfirmation.outcome)
-                        {
-                            ScreenManager.Instance.currentscreen = new Music(game);
-                            ScreenManager.Instance.reloadscreen();
-                        }
+                        //load loading screen and then reload screen
+                        ScreenManager.Instance.currentscreen = new loading(game);
+                        ScreenManager.Instance.reloadscreen();
                     }
                 }
             }

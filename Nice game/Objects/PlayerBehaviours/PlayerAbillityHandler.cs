@@ -87,9 +87,12 @@ namespace Nice_game.Objects.PlayerBehaviours
             {
                 if (attacks.Any(e => e.ID == i))
                 {
-                    attacks[i - 1].mouse_newState = newState;
-                    attacks[i - 1].Update();
-                    attacks[i - 1].mouse_newState = oldState;
+                    if (attackType == i)
+                    {
+                        attacks[i - 1].mouse_newState = newState;
+                        attacks[i - 1].Update();
+                        attacks[i - 1].mouse_newState = oldState;
+                    }
                 }
             }
 
@@ -101,6 +104,14 @@ namespace Nice_game.Objects.PlayerBehaviours
                     attackType++;
                 else
                     attackType = 0;
+            }
+
+            if (KeyboardStroke.KeyDown(k_oldState, k_newState, Keys.Q))
+            {
+                if (attackType != 0)
+                    attackType--;
+                else
+                    attackType = inventory.Count;
             }
 
             k_oldState = k_newState;
@@ -116,7 +127,8 @@ namespace Nice_game.Objects.PlayerBehaviours
             {
                 if (attacks.Any(e => e.ID == i))
                 {
-                    attacks[i - 1].Draw(batch);
+                    if (attackType == i)
+                        attacks[i - 1].Draw(batch);
                 }
             }
 

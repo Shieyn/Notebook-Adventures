@@ -49,7 +49,7 @@ namespace Nice_game.screens.gameScreen
 
         AttackOverlay attackoverlay;
 
-        public static List<GameObject> tiles = new List<GameObject>();          //objects the player can collid with
+        public static List<GameObject> tiles = new List<GameObject>();          //objects the player can collide with
         public static List<Enemy> enemies = new List<Enemy>();        //objects the player can die from
         public static List<Destroyable> pickups = new List<Destroyable>();      //objects the player can collect and use
         public static List<GameObject> deco = new List<GameObject>();           //objects that exist for the sake of existing
@@ -199,8 +199,6 @@ namespace Nice_game.screens.gameScreen
             manager.LoadContent();
             hud.LoadContent();
 
-            initialiseAO();
-
             foreach (GameObject t in tiles)
             {
                 t.LoadContent();
@@ -231,10 +229,6 @@ namespace Nice_game.screens.gameScreen
             base.LoadContent();
         }
 
-        void initialiseAO()
-        {
-            attackoverlay.attacks.Add(new AProjectile(game, player));
-        }
 
         int i = 0;
         public override void Update(GameTime gametime)
@@ -298,6 +292,7 @@ namespace Nice_game.screens.gameScreen
                 }
 
                 boss.Update();
+                attackoverlay.Update();
             }
             base.Update(gametime);
         }

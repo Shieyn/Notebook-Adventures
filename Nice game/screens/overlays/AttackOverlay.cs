@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sh.Framework.Objects;
 using Nice_game.Objects.PlayerBehaviours.Attacks;
+using Nice_game.Objects.entities;
+using Nice_game.screens.gameScreen;
+using System.Linq;
 
 namespace Nice_game.screens.overlays
 {
@@ -12,37 +15,86 @@ namespace Nice_game.screens.overlays
 
         Texture2D box;
 
-        public List<Attack> attacks = new List<Attack>();
-        public List<Attack> inventory = new List<Attack>();
+        int attackType_2;
+
+        int Y;
+        int offset;
+
+        private List<Attack> attacks = new List<Attack>();
+        private List<int> inventory = new List<int>();
 
         public AttackOverlay(Game Game)
         {
             game = Game;
+            attackType_2 = level.player.PAH.attackType;
         }
 
         public override void LoadContent()
         {
+            Y = 768 - 200;
+            offset = 10;
             box = game.Content.Load<Texture2D>("Textures/UI/misc/box");
             base.LoadContent();
         }
 
+        public override void Update()
+        {
+            attacks = level.player.PAH.attacks;
+            inventory = level.player.PAH.inventory;
+
+            base.Update();
+        }
+
+        int i = 0;
+        bool a = false;
         public override void Draw(SpriteBatch batch)
         {
-            foreach (Attack a in attacks)
-            {
-                Color valid;
 
-                if (inventory.Contains(a))
+            if (level.player.PAH.attackType != attackType_2)
+            {
+                a = true;
+            }
+
+            if (a)
+            {
+                if (i < 1 * 60)
                 {
-                    valid = Color.White;
+                    DrawInterface(batch);
+                    i++;
                 }
                 else
-                {
-                    valid = Color.DarkGray;
-                }
-                batch.Draw(box, new Rectangle((a.ID - 1) * 64, 768 - 64, 64, 64), Color.White);
+                    a = false;
             }
+            else
+                i = 0;
+
+            attackType_2 = level.player.PAH.attackType;
+
             base.Draw(batch);
+        }
+        
+        void DrawInterface(SpriteBatch batch)
+        {
+            Color drawCol;
+            Color col;
+
+            if (level.player.PAH.attackType == 0)
+                col = Color.Green;
+            else
+                col = Color.White;
+
+            batch.Draw(box, new Rectangle(offset, Y, 64, 64), col);
+
+            foreach (int i in inventory)
+            {
+                if (level.player.PAH.attackType == i)
+                    drawCol = Color.Green;
+                else
+                    drawCol = Color.White;
+
+                batch.Draw(box, new Rectangle(offset + i * 64, Y, 64, 64), drawCol);
+                batch.Draw(attacks[i - 1].icon, new Rectangle(offset + i * 64, Y, 64, 64), drawCol);
+            }
         }
     }
 }

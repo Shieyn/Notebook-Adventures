@@ -7,7 +7,7 @@ using Sh.Framework.Graphics.UI;
 
 namespace Nice_game.screens.menus
 {
-    public class settings : Screen
+    public class Settings : Screen
     {
         Game game;
 
@@ -23,7 +23,7 @@ namespace Nice_game.screens.menus
 
         Text title;
 
-        public settings(Game Game)
+        public Settings(Game Game)
         {
             game = Game;
         }

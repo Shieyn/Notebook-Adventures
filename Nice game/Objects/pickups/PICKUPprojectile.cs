@@ -20,7 +20,7 @@ namespace Nice_game.Objects.pickups
         public override void onPickup()
         {
             player.PAH.inventory.Add(1);
-            player.PAH.projectile.speed = 20;
+            player.PAH.projectile.speed = 1;
         }
     }
 }

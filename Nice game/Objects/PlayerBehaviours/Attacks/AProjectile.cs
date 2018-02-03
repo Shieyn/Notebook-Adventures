@@ -14,7 +14,10 @@ namespace Nice_game.Objects.PlayerBehaviours.Attacks
         public Player player;
 
         private int projectileTimerLim;
-        private int projectileTimer;
+        private int projectileTimer = 0;
+
+        private MouseState oldState;
+        private MouseState newState;
 
         Texture2D scope;
 
@@ -23,25 +26,27 @@ namespace Nice_game.Objects.PlayerBehaviours.Attacks
             game = Game;
             name = "Gun";
             desc = "Shoot balls in the faces of your enemies";
-            projectileTimerLim = 30 - speed;
             player = Player;
+            oldState = Mouse.GetState();
         }
 
         public override void LoadContent()
         {
             ID = 1;
             scope = game.Content.Load<Texture2D>("Textures/UI/cursors/scope");
+            projectileTimerLim = 30 - speed;
+            icon = game.Content.Load<Texture2D>(prefix + "gun");
             base.LoadContent();
         }
 
         public override void Update()
         {
-            System.Console.WriteLine(speed);
-            
             //DELET THIS 
-            if (mouse_newState.LeftButton == ButtonState.Pressed)
+            //(dont)
+            newState = Mouse.GetState();
+            if (newState.LeftButton == ButtonState.Pressed)
             {
-                if (mouse_oldState.RightButton == ButtonState.Released)
+                if (oldState.LeftButton == ButtonState.Released)
                     level.projectiles.Add(new Projectile(game, level.projectiles.Count, player));
 
                 if (projectileTimer > projectileTimerLim)
@@ -54,12 +59,17 @@ namespace Nice_game.Objects.PlayerBehaviours.Attacks
                     projectileTimer++;
                 }
             }
+            else
+                projectileTimer = 0;
+
+            oldState = newState;
+
             base.Update();
         }
 
         public override void Draw(SpriteBatch batch)
         {
-            batch.Draw(scope, mouse_newState.Position.ToVector2(), Color.Yellow);
+            batch.Draw(scope, newState.Position.ToVector2(), Color.Yellow);
             base.Draw(batch);
         }
     }

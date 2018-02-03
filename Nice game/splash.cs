@@ -20,6 +20,10 @@ namespace Nice_game
             splashrect = new Rectangle(0, 0, 1366, 768);
             splashColor = Color.White;
 
+#if RELEASE
+            Splash();
+#endif
+
             base.LoadContent();
         }
 

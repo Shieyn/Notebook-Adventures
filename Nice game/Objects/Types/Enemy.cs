@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Nice_game.screens.gameScreen;
 using Nice_game.Objects.entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nice_game.Objects.Types
 {
@@ -37,11 +39,14 @@ namespace Nice_game.Objects.Types
                 OnCollision();
             }
 
-            foreach (Danmaku d in level.projectiles)
+            List<Danmaku> staticProjectiles = new List<Danmaku>();
+            staticProjectiles = level.projectiles.ToList();
+            foreach (Danmaku d in staticProjectiles)
             {
                 if (d.hitbox.Intersects(thisrect))
                 {
                     Destroy();
+                    d.Destroy();
                 }
             }
             base.Update();

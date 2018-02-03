@@ -1,11 +1,11 @@
 ﻿todo list:
 
 -remake player controller
-	-primary and secondary weapons (with HUD) 
-	-creamier controls
-	-gamepad support		[Framework]
+	-gamepad support	
 	-animation				[Framework]
 -P L O T 
 -sound and misc sfx
 -shop interface
 -better options
+-lose screen
+-map preview

@@ -119,6 +119,7 @@
     <Compile Include="rules\gameManager.cs" />
     <Compile Include="rules\utils.cs" />
     <Compile Include="screens\gameScreen\level.cs" />
+    <Compile Include="screens\gameScreen\preview.cs" />
     <Compile Include="screens\gameScreen\tests.cs" />
     <Compile Include="screens\menus\home.cs" />
     <Compile Include="screens\menus\loading.cs" />
@@ -133,10 +134,15 @@
     <Compile Include="screens\menus\music\audioController\Stop.cs" />
     <Compile Include="screens\menus\music\selectContainer.cs" />
     <Compile Include="screens\menus\music\SongContainer.cs" />
-    <Compile Include="screens\menus\settings.cs" />
+    <Compile Include="screens\menus\Settings.cs" />
+    <Compile Include="screens\menus\settings\Preference.cs" />
+    <Compile Include="screens\menus\settings\sections\SS_General.cs" />
+    <Compile Include="screens\menus\settings\SettingsContent.cs" />
+    <Compile Include="screens\menus\settings\SettingsSection.cs" />
     <Compile Include="screens\overlays\AttackOverlay.cs" />
     <Compile Include="splash.cs" />
     <Compile Include="UI\NB_button.cs" />
+    <Compile Include="UI\NB_checkbox.cs" />
     <Compile Include="UI\NB_dialoguebox.cs" />
   </ItemGroup>
   <ItemGroup>

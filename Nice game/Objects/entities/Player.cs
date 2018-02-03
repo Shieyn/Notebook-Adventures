@@ -83,8 +83,6 @@ namespace Nice_game.Objects.entities
 
         public override void Update()
         {
-            GPO.Update();
-            position = GPO.position;
 
             th.Update();
 
@@ -97,11 +95,12 @@ namespace Nice_game.Objects.entities
 
             hitbox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             
+            /*
             //collision with bounding box
             if (position.X + GPO.hsp < cam.ViewPort.Left)
             {
                 GPO.position.X -= GPO.hsp;
-            }
+            }*/
 
             #region killing the player
             if (ps.lives < 0)
@@ -118,16 +117,11 @@ namespace Nice_game.Objects.entities
             #region movement
             if (enableMovement)
             {
-                GPO.speed = 10;
-                GPO.jumpspeed = 20;
+                GPO.Update();
+                position = GPO.position;
 
                 mouse_newState = Mouse.GetState();              
                 mouse_oldState = mouse_newState;
-            }
-            else
-            {
-                GPO.speed = 0;
-                GPO.jumpspeed = 0;
             }
             #endregion
 

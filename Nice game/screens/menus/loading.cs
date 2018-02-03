@@ -2,7 +2,7 @@
 using Sh.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Nice_game.screens.menus
 {
@@ -10,6 +10,7 @@ namespace Nice_game.screens.menus
     {
         //TODO load game asynchronously
 
+        static Game Sgame;
         Game game;
         Text loadText;
 
@@ -22,6 +23,7 @@ namespace Nice_game.screens.menus
         public loading(Game Game)
         {
             game = Game;
+            Sgame = game;
 
             loadText = new Text()
             {
@@ -77,7 +79,7 @@ namespace Nice_game.screens.menus
         
         public void start()
         {
-            ScreenManager.Instance.currentscreen = new gameScreen.level(game, 1);
+            ScreenManager.Instance.currentscreen = new gameScreen.preview(game);
             ScreenManager.Instance.reloadscreen();
         }
     }

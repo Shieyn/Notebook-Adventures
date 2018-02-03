@@ -23,7 +23,6 @@ namespace Nice_game.Objects.entities
 
         public camera()
         {
-            speed = 10;
         }
 
         public override void LoadContent()
@@ -33,11 +32,12 @@ namespace Nice_game.Objects.entities
 
         public override void Update()
         {
+            speed = level.player.GPO.hsp;
             ViewPort = new Rectangle(0 + (int)speed, 0, 1366, 768);
 
             if (Status == status.Dynamic)
             {
-                if (focus.position.X > 1366 / 4)
+                if (focus.position.X > 1366 / 4 || focus.position.X < 300)
                 {
                     foreach (GameObject g in level.tiles)
                     {

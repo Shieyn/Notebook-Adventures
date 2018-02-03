@@ -76,6 +76,9 @@ namespace Nice_game.rules
             }
             menu.Update();
 
+            if (!game.IsActive)
+                paused = true;
+
             base.Update();
         }
 
